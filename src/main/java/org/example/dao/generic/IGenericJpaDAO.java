@@ -1,19 +1,15 @@
-package org.example.dao.generic.jpa;
+package org.example.dao.generic;
 
 import java.io.Serializable;
 import java.util.Collection;
 
-import org.example.dao.Persistente;
+import org.example.domain.jpa.Persistente;
 import org.example.exceptions.DAOException;
 import org.example.exceptions.MaisDeUmRegistroException;
 import org.example.exceptions.TableException;
 import org.example.exceptions.TipoChaveNaoEncontradaException;
 
-/**
- * @author rodrigo.pires
- *
- * Interface genérica para métodos de CRUD(Create, Read, Update and Delete)
- */
+
 public interface IGenericJapDAO <T extends Persistente, E extends Serializable> {
 
     /**
