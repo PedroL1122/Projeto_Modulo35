@@ -1,7 +1,5 @@
 package org.example.domain.jpa;
 
-import org.example.dao.Persistente;
-
 import java.math.BigDecimal;
 
 import javax.persistence.Column;
@@ -11,8 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
-
 
 /**
  * @author rodrigo.pires

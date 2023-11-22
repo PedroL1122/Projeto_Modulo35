@@ -10,7 +10,7 @@ import org.example.exceptions.TableException;
 import org.example.exceptions.TipoChaveNaoEncontradaException;
 
 
-public interface IGenericJapDAO <T extends Persistente, E extends Serializable> {
+public interface IGenericJpaDAO<T extends Persistente, E extends Serializable> {
 
     /**
      * Método para cadastrar novos registro no banco de dados

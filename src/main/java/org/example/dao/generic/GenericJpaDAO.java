@@ -8,15 +8,17 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import org.example.dao.Persistente;
-import org.example.dao.generic.jpa.IGenericJapDAO;
+import org.example.domain.jpa.Persistente;
+import org.example.domain.jpa.ProdutoJpa;
+import org.example.domain.jpa.VendaJpa;
 import org.example.exceptions.DAOException;
 import org.example.exceptions.MaisDeUmRegistroException;
 import org.example.exceptions.TableException;
 import org.example.exceptions.TipoChaveNaoEncontradaException;
 
+public class GenericJpaDAO <T extends Persistente, E extends Serializable> implements IGenericJpaDAO<T,E> {
 
-public class GenericJpaDAO <T extends Persistente, E extends Serializable> implements IGenericJapDAO<T,E> {
+    private static final String PERSISTENCE_UNIT_NAME = "Postgre1";
 
     protected EntityManagerFactory entityManagerFactory;
 
@@ -24,8 +26,17 @@ public class GenericJpaDAO <T extends Persistente, E extends Serializable> imple
 
     private Class<T> persistenteClass;
 
-    public GenericJpaDAO(Class<T> persistenteClass) {
+    private String persistenceUnitName;
+
+    public GenericJpaDAO(Class<T> persistenteClass, String persistenceUnitName) {
         this.persistenteClass = persistenteClass;
+        this.persistenceUnitName = persistenceUnitName;
+    }
+
+    public GenericJpaDAO(Class<ProdutoJpa> persistenteClass) {
+    }
+
+    public GenericJpaDAO(Class<VendaJpa> vendaJpaClass) {
     }
 
     @Override
@@ -75,7 +86,7 @@ public class GenericJpaDAO <T extends Persistente, E extends Serializable> imple
 
     protected void openConnection() {
         entityManagerFactory =
-                Persistence.createEntityManagerFactory("ExemploJPA");
+                Persistence.createEntityManagerFactory(getPersistenceUnitName());
         entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
     }
@@ -91,6 +102,15 @@ public class GenericJpaDAO <T extends Persistente, E extends Serializable> imple
         sb.append(this.persistenteClass.getSimpleName());
         sb.append(" obj");
         return sb.toString();
+    }
+
+    private String getPersistenceUnitName() {
+        if (persistenceUnitName != null
+                && !"".equals(persistenceUnitName)) {
+            return persistenceUnitName;
+        } else {
+            return PERSISTENCE_UNIT_NAME;
+        }
     }
 
 

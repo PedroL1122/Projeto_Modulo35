@@ -3,7 +3,6 @@ package org.example.services.generic.jpa;
 import java.io.Serializable;
 import java.util.Collection;
 
-import org.example.dao.Persistente;
 import org.example.dao.generic.jpa.IGenericDAO;
 import org.example.dao.generic.jpa.IGenericJapDAO;
 import org.example.exceptions.DAOException;

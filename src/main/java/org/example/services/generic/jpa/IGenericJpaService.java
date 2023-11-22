@@ -1,6 +1,6 @@
 package org.example.services.generic.jpa;
 
-import org.example.dao.Persistente;
+import org.example.domain.jpa.Persistente;
 import org.example.exceptions.DAOException;
 import org.example.exceptions.MaisDeUmRegistroException;
 import org.example.exceptions.TableException;

@@ -1,4 +1,4 @@
-package JPA;
+package org.example.test.JPA;
 
 import static org.junit.Assert.assertTrue;
 
@@ -9,18 +9,15 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
-import br.com.rpires.dao.jpa.ClienteJpaDAO;
-import br.com.rpires.dao.jpa.IClienteJpaDAO;
-import br.com.rpires.domain.jpa.ClienteJpa;
-import br.com.rpires.exceptions.DAOException;
-import br.com.rpires.exceptions.MaisDeUmRegistroException;
-import br.com.rpires.exceptions.TableException;
-import br.com.rpires.exceptions.TipoChaveNaoEncontradaException;
+import org.example.dao.jpa.ClienteJpaDAO;
+import org.example.dao.jpa.IClienteJpaDAO;
+import org.example.domain.jpa.ClienteJpa;
+import org.example.exceptions.DAOException;
+import org.example.exceptions.MaisDeUmRegistroException;
+import org.example.exceptions.TableException;
+import org.example.exceptions.TipoChaveNaoEncontradaException;
 
-/**
- * @author rodrigo.pires
- *
- */
+
 public class ClienteJpaDaoTest {
 
     private IClienteJpaDAO<ClienteJpa> clienteDao;
@@ -116,8 +113,8 @@ public class ClienteJpaDaoTest {
         Assert.assertNotNull(retorno1);
 
         Collection<ClienteJpa> list = clienteDao.buscarTodos();
-        assertTrue(list != null);
-        assertTrue(list.size() == 2);
+        Assert.assertTrue(list != null);
+        Assert.assertTrue(list.size() == 2);
 
         list.forEach(cli -> {
             try {
@@ -129,8 +126,8 @@ public class ClienteJpaDaoTest {
         });
 
         Collection<ClienteJpa> list1 = clienteDao.buscarTodos();
-        assertTrue(list1 != null);
-        assertTrue(list1.size() == 0);
+        Assert.assertTrue(list1 != null);
+        Assert.assertTrue(list1.size() == 0);
     }
 
     private ClienteJpa criarCliente() {

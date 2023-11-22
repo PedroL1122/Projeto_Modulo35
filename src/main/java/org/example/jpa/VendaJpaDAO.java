@@ -5,7 +5,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import org.example.dao.generic.jpa.GenericJpaDAO;
+import org.example.dao.generic.GenericJpaDAO;
 import org.example.domain.jpa.ClienteJpa;
 import org.example.domain.jpa.ProdutoJpa;
 import org.example.domain.jpa.VendaJpa;
@@ -16,10 +16,7 @@ import org.example.exceptions.TipoChaveNaoEncontradaException;
 
 import java.util.Collection;
 
-/**
- * @author rodrigo.pires
- *
- */
+
 public class VendaJpaDAO extends GenericJpaDAO<VendaJpa, Long> implements IVendaJpaDAO {
 
     public VendaJpaDAO() {

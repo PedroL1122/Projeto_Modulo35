@@ -1,6 +1,6 @@
-package JPA;
+package org.example.test.JPA;
 
-import org.example.VendaExclusaoJpaDAO;
+import org.example.test.dao.VendaExclusaoJpaDAO;
 import org.example.dao.jpa.*;
 import org.example.domain.jpa.ClienteJpa;
 import org.example.domain.jpa.ProdutoJpa;
@@ -11,6 +11,7 @@ import org.example.exceptions.MaisDeUmRegistroException;
 import org.example.exceptions.TableException;
 import org.example.exceptions.TipoChaveNaoEncontradaException;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,7 +21,6 @@ import java.time.Instant;
 import java.util.Collection;
 import java.util.Random;
 
-import static org.junit.Assert.*;
 
 
 public class VendaJpaDAOTest {
@@ -64,24 +64,24 @@ public class VendaJpaDAOTest {
     public void pesquisar() throws TipoChaveNaoEncontradaException, MaisDeUmRegistroException, TableException, DAOException {
         VendaJpa venda = criarVenda("A1");
         VendaJpa retorno = vendaDao.cadastrar(venda);
-        assertNotNull(retorno);
+        Assert.assertNotNull(retorno);
         VendaJpa vendaConsultada = vendaDao.consultar(venda.getId());
-        assertNotNull(vendaConsultada);
-        assertEquals(venda.getCodigo(), vendaConsultada.getCodigo());
+        Assert.assertNotNull(vendaConsultada);
+        Assert.assertEquals(venda.getCodigo(), vendaConsultada.getCodigo());
     }
 
     @Test
     public void salvar() throws TipoChaveNaoEncontradaException, DAOException, MaisDeUmRegistroException, TableException {
         VendaJpa venda = criarVenda("A2");
         VendaJpa retorno = vendaDao.cadastrar(venda);
-        assertNotNull(retorno);
+        Assert.assertNotNull(retorno);
 
-        assertTrue(venda.getValorTotal().equals(BigDecimal.valueOf(20)));
-        assertTrue(venda.getStatus().equals(Status.INICIADA));
+        Assert.assertTrue(venda.getValorTotal().equals(BigDecimal.valueOf(20)));
+        Assert.assertTrue(venda.getStatus().equals(Status.INICIADA));
 
         VendaJpa vendaConsultada = vendaDao.consultar(venda.getId());
-        assertTrue(vendaConsultada.getId() != null);
-        assertEquals(venda.getCodigo(), vendaConsultada.getCodigo());
+        Assert.assertTrue(vendaConsultada.getId() != null);
+        Assert.assertEquals(venda.getCodigo(), vendaConsultada.getCodigo());
     }
 
     @Test
@@ -89,16 +89,16 @@ public class VendaJpaDAOTest {
         String codigoVenda = "A3";
         VendaJpa venda = criarVenda(codigoVenda);
         VendaJpa retorno = vendaDao.cadastrar(venda);
-        assertNotNull(retorno);
-        assertNotNull(venda);
-        assertEquals(codigoVenda, venda.getCodigo());
+        Assert.assertNotNull(retorno);
+        Assert.assertNotNull(venda);
+        Assert.assertEquals(codigoVenda, venda.getCodigo());
 
         retorno.setStatus(Status.CANCELADA);
         vendaDao.cancelarVenda(venda);
 
         VendaJpa vendaConsultada = vendaDao.consultar(venda.getId());
-        assertEquals(codigoVenda, vendaConsultada.getCodigo());
-        assertEquals(Status.CANCELADA, vendaConsultada.getStatus());
+        Assert.assertEquals(codigoVenda, vendaConsultada.getCodigo());
+        Assert.assertEquals(Status.CANCELADA, vendaConsultada.getStatus());
     }
 
     @Test
@@ -106,17 +106,17 @@ public class VendaJpaDAOTest {
         String codigoVenda = "A4";
         VendaJpa venda = criarVenda(codigoVenda);
         VendaJpa retorno = vendaDao.cadastrar(venda);
-        assertNotNull(retorno);
-        assertNotNull(venda);
-        assertEquals(codigoVenda, venda.getCodigo());
+        Assert.assertNotNull(retorno);
+        Assert.assertNotNull(venda);
+        Assert.assertEquals(codigoVenda, venda.getCodigo());
 
         VendaJpa vendaConsultada = vendaDao.consultarComCollection(venda.getId());
         vendaConsultada.adicionarProduto(produto, 1);
 
-        assertTrue(vendaConsultada.getQuantidadeTotalProdutos() == 3);
+        Assert.assertTrue(vendaConsultada.getQuantidadeTotalProdutos() == 3);
         BigDecimal valorTotal = BigDecimal.valueOf(30).setScale(2, RoundingMode.HALF_DOWN);
-        assertTrue(vendaConsultada.getValorTotal().equals(valorTotal));
-        assertTrue(vendaConsultada.getStatus().equals(Status.INICIADA));
+        Assert.assertTrue(vendaConsultada.getValorTotal().equals(valorTotal));
+        Assert.assertTrue(vendaConsultada.getStatus().equals(Status.INICIADA));
     }
 
     @Test
@@ -124,35 +124,35 @@ public class VendaJpaDAOTest {
         String codigoVenda = "A5";
         VendaJpa venda = criarVenda(codigoVenda);
         VendaJpa retorno = vendaDao.cadastrar(venda);
-        assertNotNull(retorno);
-        assertNotNull(venda);
-        assertEquals(codigoVenda, venda.getCodigo());
+        Assert.assertNotNull(retorno);
+        Assert.assertNotNull(venda);
+        Assert.assertEquals(codigoVenda, venda.getCodigo());
 
         ProdutoJpa prod = cadastrarProduto(codigoVenda, BigDecimal.valueOf(50));
-        assertNotNull(prod);
-        assertEquals(codigoVenda, prod.getCodigo());
+        Assert.assertNotNull(prod);
+        Assert.assertEquals(codigoVenda, prod.getCodigo());
 
         //TODO Usando este método apra evitar a exception org.hibernate.LazyInitializationException
         // Ele busca todos os dados da lista pois a mesma por default é lazy
         VendaJpa vendaConsultada = vendaDao.consultarComCollection(venda.getId());
         vendaConsultada.adicionarProduto(prod, 1);
 
-        assertTrue(vendaConsultada.getQuantidadeTotalProdutos() == 3);
+        Assert.assertTrue(vendaConsultada.getQuantidadeTotalProdutos() == 3);
         BigDecimal valorTotal = BigDecimal.valueOf(70).setScale(2, RoundingMode.HALF_DOWN);
-        assertTrue(vendaConsultada.getValorTotal().equals(valorTotal));
-        assertTrue(vendaConsultada.getStatus().equals(Status.INICIADA));
+        Assert.assertTrue(vendaConsultada.getValorTotal().equals(valorTotal));
+        Assert.assertTrue(vendaConsultada.getStatus().equals(Status.INICIADA));
     }
 
     @Test(expected = DAOException.class)
     public void salvarVendaMesmoCodigoExistente() throws TipoChaveNaoEncontradaException, DAOException {
         VendaJpa venda = criarVenda("A6");
         VendaJpa retorno = vendaDao.cadastrar(venda);
-        assertNotNull(retorno);
+        Assert.assertNotNull(retorno);
 
         VendaJpa venda1 = criarVenda("A6");
         VendaJpa retorno1 = vendaDao.cadastrar(venda1);
-        assertNull(retorno1);
-        assertTrue(venda.getStatus().equals(Status.INICIADA));
+        Assert.assertNull(retorno1);
+        Assert.assertTrue(venda.getStatus().equals(Status.INICIADA));
     }
 
     @Test
@@ -160,26 +160,26 @@ public class VendaJpaDAOTest {
         String codigoVenda = "A7";
         VendaJpa venda = criarVenda(codigoVenda);
         VendaJpa retorno = vendaDao.cadastrar(venda);
-        assertNotNull(retorno);
-        assertNotNull(venda);
-        assertEquals(codigoVenda, venda.getCodigo());
+        Assert.assertNotNull(retorno);
+        Assert.assertNotNull(venda);
+        Assert.assertEquals(codigoVenda, venda.getCodigo());
 
         ProdutoJpa prod = cadastrarProduto(codigoVenda, BigDecimal.valueOf(50));
-        assertNotNull(prod);
-        assertEquals(codigoVenda, prod.getCodigo());
+        Assert.assertNotNull(prod);
+        Assert.assertEquals(codigoVenda, prod.getCodigo());
 
         VendaJpa vendaConsultada = vendaDao.consultarComCollection(venda.getId());
         vendaConsultada.adicionarProduto(prod, 1);
-        assertTrue(vendaConsultada.getQuantidadeTotalProdutos() == 3);
+        Assert.assertTrue(vendaConsultada.getQuantidadeTotalProdutos() == 3);
         BigDecimal valorTotal = BigDecimal.valueOf(70).setScale(2, RoundingMode.HALF_DOWN);
-        assertTrue(vendaConsultada.getValorTotal().equals(valorTotal));
+        Assert.assertTrue(vendaConsultada.getValorTotal().equals(valorTotal));
 
 
         vendaConsultada.removerProduto(prod, 1);
-        assertTrue(vendaConsultada.getQuantidadeTotalProdutos() == 2);
+        Assert.assertTrue(vendaConsultada.getQuantidadeTotalProdutos() == 2);
         valorTotal = BigDecimal.valueOf(20).setScale(2, RoundingMode.HALF_DOWN);
-        assertTrue(vendaConsultada.getValorTotal().equals(valorTotal));
-        assertTrue(vendaConsultada.getStatus().equals(Status.INICIADA));
+        Assert.assertTrue(vendaConsultada.getValorTotal().equals(valorTotal));
+        Assert.assertTrue(vendaConsultada.getStatus().equals(Status.INICIADA));
     }
 
     @Test
@@ -187,26 +187,26 @@ public class VendaJpaDAOTest {
         String codigoVenda = "A8";
         VendaJpa venda = criarVenda(codigoVenda);
         VendaJpa retorno = vendaDao.cadastrar(venda);
-        assertNotNull(retorno);
-        assertNotNull(venda);
-        assertEquals(codigoVenda, venda.getCodigo());
+        Assert.assertNotNull(retorno);
+        Assert.assertNotNull(venda);
+        Assert.assertEquals(codigoVenda, venda.getCodigo());
 
         ProdutoJpa prod = cadastrarProduto(codigoVenda, BigDecimal.valueOf(50));
-        assertNotNull(prod);
-        assertEquals(codigoVenda, prod.getCodigo());
+        Assert.assertNotNull(prod);
+        Assert.assertEquals(codigoVenda, prod.getCodigo());
 
         VendaJpa vendaConsultada = vendaDao.consultarComCollection(venda.getId());
         vendaConsultada.adicionarProduto(prod, 1);
-        assertTrue(vendaConsultada.getQuantidadeTotalProdutos() == 3);
+        Assert.assertTrue(vendaConsultada.getQuantidadeTotalProdutos() == 3);
         BigDecimal valorTotal = BigDecimal.valueOf(70).setScale(2, RoundingMode.HALF_DOWN);
-        assertTrue(vendaConsultada.getValorTotal().equals(valorTotal));
+        Assert.assertTrue(vendaConsultada.getValorTotal().equals(valorTotal));
 
 
         vendaConsultada.removerProduto(prod, 1);
-        assertTrue(vendaConsultada.getQuantidadeTotalProdutos() == 2);
+        Assert.assertTrue(vendaConsultada.getQuantidadeTotalProdutos() == 2);
         valorTotal = BigDecimal.valueOf(20).setScale(2, RoundingMode.HALF_DOWN);
-        assertTrue(vendaConsultada.getValorTotal().equals(valorTotal));
-        assertTrue(vendaConsultada.getStatus().equals(Status.INICIADA));
+        Assert.assertTrue(vendaConsultada.getValorTotal().equals(valorTotal));
+        Assert.assertTrue(vendaConsultada.getStatus().equals(Status.INICIADA));
     }
 
     @Test
@@ -214,25 +214,25 @@ public class VendaJpaDAOTest {
         String codigoVenda = "A9";
         VendaJpa venda = criarVenda(codigoVenda);
         VendaJpa retorno = vendaDao.cadastrar(venda);
-        assertNotNull(retorno);
-        assertNotNull(venda);
-        assertEquals(codigoVenda, venda.getCodigo());
+        Assert.assertNotNull(retorno);
+        Assert.assertNotNull(venda);
+        Assert.assertEquals(codigoVenda, venda.getCodigo());
 
         ProdutoJpa prod = cadastrarProduto(codigoVenda, BigDecimal.valueOf(50));
-        assertNotNull(prod);
-        assertEquals(codigoVenda, prod.getCodigo());
+        Assert.assertNotNull(prod);
+        Assert.assertEquals(codigoVenda, prod.getCodigo());
 
         VendaJpa vendaConsultada = vendaDao.consultarComCollection(venda.getId());
         vendaConsultada.adicionarProduto(prod, 1);
-        assertTrue(vendaConsultada.getQuantidadeTotalProdutos() == 3);
+        Assert.assertTrue(vendaConsultada.getQuantidadeTotalProdutos() == 3);
         BigDecimal valorTotal = BigDecimal.valueOf(70).setScale(2, RoundingMode.HALF_DOWN);
-        assertTrue(vendaConsultada.getValorTotal().equals(valorTotal));
+        Assert.assertTrue(vendaConsultada.getValorTotal().equals(valorTotal));
 
 
         vendaConsultada.removerTodosProdutos();
-        assertTrue(vendaConsultada.getQuantidadeTotalProdutos() == 0);
-        assertTrue(vendaConsultada.getValorTotal().equals(BigDecimal.valueOf(0)));
-        assertTrue(vendaConsultada.getStatus().equals(Status.INICIADA));
+        Assert.assertTrue(vendaConsultada.getQuantidadeTotalProdutos() == 0);
+        Assert.assertTrue(vendaConsultada.getValorTotal().equals(BigDecimal.valueOf(0)));
+        Assert.assertTrue(vendaConsultada.getStatus().equals(Status.INICIADA));
     }
 
     @Test
@@ -240,16 +240,16 @@ public class VendaJpaDAOTest {
         String codigoVenda = "A10";
         VendaJpa venda = criarVenda(codigoVenda);
         VendaJpa retorno = vendaDao.cadastrar(venda);
-        assertNotNull(retorno);
-        assertNotNull(venda);
-        assertEquals(codigoVenda, venda.getCodigo());
+        Assert.assertNotNull(retorno);
+        Assert.assertNotNull(venda);
+        Assert.assertEquals(codigoVenda, venda.getCodigo());
 
         venda.setStatus(Status.CONCLUIDA);
         vendaDao.finalizarVenda(venda);
 
         VendaJpa vendaConsultada = vendaDao.consultarComCollection(venda.getId());
-        assertEquals(venda.getCodigo(), vendaConsultada.getCodigo());
-        assertEquals(Status.CONCLUIDA, vendaConsultada.getStatus());
+        Assert.assertEquals(venda.getCodigo(), vendaConsultada.getCodigo());
+        Assert.assertEquals(Status.CONCLUIDA, vendaConsultada.getStatus());
     }
 
     @Test(expected = UnsupportedOperationException.class)
@@ -257,16 +257,16 @@ public class VendaJpaDAOTest {
         String codigoVenda = "A11";
         VendaJpa venda = criarVenda(codigoVenda);
         VendaJpa retorno = vendaDao.cadastrar(venda);
-        assertNotNull(retorno);
-        assertNotNull(venda);
-        assertEquals(codigoVenda, venda.getCodigo());
+        Assert.assertNotNull(retorno);
+        Assert.assertNotNull(venda);
+        Assert.assertEquals(codigoVenda, venda.getCodigo());
 
         venda.setStatus(Status.CONCLUIDA);
         vendaDao.finalizarVenda(venda);
 
         VendaJpa vendaConsultada = vendaDao.consultarComCollection(venda.getId());
-        assertEquals(venda.getCodigo(), vendaConsultada.getCodigo());
-        assertEquals(Status.CONCLUIDA, vendaConsultada.getStatus());
+        Assert.assertEquals(venda.getCodigo(), vendaConsultada.getCodigo());
+        Assert.assertEquals(Status.CONCLUIDA, vendaConsultada.getStatus());
 
         vendaConsultada.adicionarProduto(this.produto, 1);
 

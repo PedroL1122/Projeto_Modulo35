@@ -1,2 +1,10 @@
-package org.example.domain.jpa;public class Persistente {
+package org.example.domain.jpa;
+
+public interface Persistente {
+
+    //public Long getCodigo();
+
+    public Long getId();
+
+    public void setId(Long id);
 }

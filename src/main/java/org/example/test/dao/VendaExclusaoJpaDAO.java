@@ -1,4 +1,4 @@
-package dao;
+package org.example.test.dao;
 
 import org.example.dao.generic.jpa.GenericJpaDB1DAO;
 import org.example.dao.jpa.IVendaJpaDAO;
